@@ -15,21 +15,24 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 if [ -z $3 ]; then
-	echo "USAGE: $0 <hours> <hard|n_cores> <number of handlers> [<from num>]"
-	exit 0
-fi
+	echo "USAGE: $0 <hours> <hard|n_cores> <number of handlers> [handler script]";
+	echo "";
+	echo "  fromnum - if set, handler enumeration will start from that number";
+	exit 0;
+fi;
 
 workpath=`pwd`
 bash=`which bash`
 
 account=`nsc_account_get.sh`
 
-fromnum=1
-if [ ! -z $4 ]; then
-	fromnum=$4
+if [ ! -z ${fromnum} ]; then
+	fromnum=1;
 fi
 
 let tonum=$fromnum-1+$3
+
+handler_script=${@:4}
 
 for i in `seq $fromnum $tonum`; do
 	name=jhand`printf "%03d" $i`.sh
@@ -46,6 +49,7 @@ for i in `seq $fromnum $tonum`; do
 	echo "cd $workpath" >> $name
 	echo "all_done=0" >> $name
 	echo "sleep $sleeptime" >> $name
+	echo "${handler_script};" >> $name
 	echo "while [ \$all_done -eq 0 ]; do" >> $name
 	echo "	all_done=1" >> $name
 	echo "	for job in \`ls ./*.job\`; do" >> $name
