@@ -17,6 +17,10 @@ set -e
 
 if [ -z $3 ]; then
 	echo "USAGE: $0 <jobname> <hours> <startnum> <num> [command and parameters]"
+  echo ""
+	echo " If \$NUMCORES is set (currently \"$NUMCORES\") the scripts will"
+        echo "   be sent to cores (-n <num>) and not to nodes (-N)."
+
 	exit
 fi
 
@@ -26,14 +30,19 @@ snum=$3
 let num=$snum+$4-1
 cmd=${@:5}
 account=`nsc_account_get.sh`
+cores=${NUMCORES}
 
 for i in `seq $snum $num`; do
 	jobname=${name}_`printf "%03d" $i`
 	jobfile=$jobname.job
 	target=$jobfile
 	finish=$jobname.fin
-	echo "#!/bin/bash" > $jobfile
-	echo "#SBATCH -N 1" >> $jobfile
+  echo "#!/bin/bash" > $jobfile
+	if [ -z ${cores} ]; then
+		echo "#SBATCH -N 1" >> $jobfile
+        else
+		echo "#SBATCH -n ${cores}" >> $jobfile
+	fi;
 	echo "#SBATCH -t $hours:00:00" >> $jobfile
 	echo "#SBATCH -A $account" >> $jobfile
 	echo "#TARGET $jobfile" >> $jobfile
