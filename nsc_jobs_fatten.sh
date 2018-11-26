@@ -33,8 +33,8 @@ if [ $# -lt ${NUMREQUIRED} ]; then
   echo "  target - job-files to fatten";
   echo "";
   echo " EXAMPLES:";
-  echo "  # Run on two files, with 380G of memory reservation (sigma)";
-  echo "  $0 380G job_001.job job_002.job";
+  echo "  # Run on two files, with 360G of memory reservation (sigma)";
+  echo "  $0 360G job_001.job job_002.job";
   echo "";
   echo "$(basename $0 .sh)  Copyright (C) 2017-2018  Robert Pilstål;"
   echo "This program comes with ABSOLUTELY NO WARRANTY.";
