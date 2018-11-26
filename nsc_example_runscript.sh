@@ -57,11 +57,11 @@ target=`readlink -f $1`;
 # Set default values
 if [ -z ${EXECUTABLE} ]; then
   # Absolute path to executable
-  EXECUTABLE="";
+  EXECUTABLE="<EXECUTABLE>";
 fi
 if [ -z ${OPTIONS} ]; then
   # Executable options
-  OPTIONS="";
+  OPTIONS="<OPTIONS>";
 fi
 if [ -z ${WORKDIR} ]; then
   # Where to save output

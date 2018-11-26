@@ -47,10 +47,12 @@ fi;
 memory=$1;
 targetlist=${@:$LISTSTART};
 
+tmpsuffix=`date +%s`
+
 # Loop over arguments
 for target in ${targetlist}; do
   echo ${target};
   grep -v '#SBATCH --mem' ${target} \
-    | sed -e 's/\#!\/bin\/bash/\#!\/bin\/bash\n\#SBATCH --mem '${memory}'/' > ${target};
-	#mv $i.temp $i
+    | sed -e 's/\#!\/bin\/bash/\#!\/bin\/bash\n\#SBATCH --mem '${memory}'/' > ${target}.${tmpsuffix};
+  mv ${target}.${tmpsuffix} ${target};
 done;
